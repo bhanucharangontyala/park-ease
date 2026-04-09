@@ -28,11 +28,15 @@ public class PaymentService {
 		payment.setRazorpayPaymentId(razorpayPaymentId);
 		payment.setStatus("SUCCESS");
 
-		// Mark slot unavailable
 		Booking booking = payment.getBooking();
-		ParkingSlot slot = booking.getParkingSlot();
 
-		slot.setAvailable(false);
+	    // Confirm booking
+	    booking.setStatus("CONFIRMED");
+
+	    // Block slot
+	    ParkingSlot slot = booking.getParkingSlot();
+	    slot.setAvailable(false);
+		
 		slotRepo.save(slot);
 
 		return paymentRepo.save(payment);

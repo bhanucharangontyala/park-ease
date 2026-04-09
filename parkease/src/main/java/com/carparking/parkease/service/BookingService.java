@@ -19,6 +19,8 @@ import com.razorpay.Order;
 import com.razorpay.RazorpayClient;
 import com.razorpay.RazorpayException;
 
+import jakarta.transaction.Transactional;
+
 @Service
 public class BookingService {
 
@@ -44,52 +46,50 @@ public class BookingService {
 	}
 
 	// MAIN METHOD (Booking + Razorpay Order)
+	@Transactional
 	public BookingResponseDTO createBookingAndOrder(BookingRequestDTO dto) throws RazorpayException {
-
-		// 1. Fetch User
+		// fetching user
 		User user = userRepo.findById(dto.getUserId()).orElseThrow(() -> new RuntimeException("User not found"));
-
-		// 2. Fetch Slot
+		// fetching the slot
 		ParkingSlot slot = slotRepo.findById(dto.getSlotId()).orElseThrow(() -> new RuntimeException("Slot not found"));
-
-		// 3. Validate availability
+		// checking the availability
 		if (!slot.isAvailable()) {
 			throw new RuntimeException("Slot already booked");
 		}
-
-		// 4. Calculate dynamic price
+		// calculating the price
 		double totalPrice = priceCalculator.calculatePrice(slot.getPricePerHour(), dto.getStartTime(),
 				dto.getEndTime());
-
-		// 5. Create Booking
+		// creating the booking
 		Booking booking = new Booking();
 		booking.setUser(user);
 		booking.setParkingSlot(slot);
 		booking.setStartTime(dto.getStartTime());
 		booking.setEndTime(dto.getEndTime());
 		booking.setTotalPrice(totalPrice);
-
+		booking.setStatus("PENDING");
+		
 		bookingRepo.save(booking);
-
-		// 6. Create Razorpay Order
+		//creating razorpay order
 		RazorpayClient client = new RazorpayClient(key, secret);
 
 		JSONObject options = new JSONObject();
-		options.put("amount", totalPrice * 100); // INR → paise
+		options.put("amount", totalPrice * 100);
 		options.put("currency", "INR");
 		options.put("receipt", "booking_" + booking.getId());
 
 		Order order = client.orders.create(options);
 
-		// ✅ 7. Save Payment
+		String orderId = order.get("id").toString();
+		// save payment
 		Payment payment = new Payment();
 		payment.setBooking(booking);
 		payment.setAmount(totalPrice);
-		payment.setRazorpayOrderId(order.get("id"));
+		payment.setRazorpayOrderId(orderId);
 		payment.setStatus("CREATED");
+
 		paymentRepo.save(payment);
-		
-		return new BookingResponseDTO(booking.getId(), user.getName(), slot.getSlotNumber(), totalPrice,
-				order.get("id"), "Booking created. Proceed to payment");
+
+		return new BookingResponseDTO(booking.getId(), user.getName(), slot.getSlotNumber(), totalPrice, orderId,
+				"Booking created. Proceed to payment");
 	}
 }

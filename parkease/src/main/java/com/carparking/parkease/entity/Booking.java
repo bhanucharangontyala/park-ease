@@ -32,6 +32,7 @@ public class Booking {
     private LocalDateTime startTime;
     private LocalDateTime endTime;
     private double totalPrice;
+    private String status;
 
     @OneToOne(mappedBy = "booking", cascade = CascadeType.ALL)
     private Payment payment;
