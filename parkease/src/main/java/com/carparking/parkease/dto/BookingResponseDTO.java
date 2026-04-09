@@ -8,6 +8,8 @@ import lombok.Data;
 public class BookingResponseDTO {
 
 	private Long bookingId;
+	
+	private Long paymentId;  
 
 	private String userName;
 	

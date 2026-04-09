@@ -89,7 +89,7 @@ public class BookingService {
 
 		paymentRepo.save(payment);
 
-		return new BookingResponseDTO(booking.getId(), user.getName(), slot.getSlotNumber(), totalPrice, orderId,
+		return new BookingResponseDTO(booking.getId(),payment.getId() ,user.getName(), slot.getSlotNumber(), totalPrice, orderId,
 				"Booking created. Proceed to payment");
 	}
 }
