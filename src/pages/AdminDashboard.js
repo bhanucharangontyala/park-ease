@@ -71,10 +71,8 @@ const AdminDashboard = () => {
             <thead className="table-dark">
               <tr>
                 <th>ID</th>
-                <th>Slot #</th>
-                <th>Type</th>
-                <th>Floor</th>
-                <th>Price/hr</th>
+                <th>Slot </th>
+                <th>Price per hr</th>
                 <th>Status</th>
                 <th>Actions</th>
               </tr>
@@ -84,8 +82,6 @@ const AdminDashboard = () => {
                 <tr key={slot.id}>
                   <td>{slot.id}</td>
                   <td>{slot.slotNumber}</td>
-                  <td>{slot.slotType}</td>
-                  <td>{slot.floor}</td>
                   <td>₹{slot.pricePerHour}</td>
                   <td>{slot.available ? 'Available' : 'Occupied'}</td>
                   <td>
@@ -103,9 +99,7 @@ const AdminDashboard = () => {
             <thead className="table-dark">
               <tr>
                 <th>ID</th>
-                <th>Name</th>
                 <th>Email</th>
-                <th>Phone</th>
                 <th>Role</th>
               </tr>
             </thead>
@@ -113,9 +107,7 @@ const AdminDashboard = () => {
               {users.map(user => (
                 <tr key={user.id}>
                   <td>{user.id}</td>
-                  <td>{user.userName}</td>
                   <td>{user.email}</td>
-                  <td>{user.phoneNo}</td>
                   <td>{user.role}</td>
                 </tr>
               ))}
@@ -136,18 +128,6 @@ const AdminDashboard = () => {
               <Form.Control type="text" value={newSlot.slotNumber} onChange={(e) => setNewSlot({...newSlot, slotNumber: e.target.value})} />
             </Form.Group>
             <Form.Group className="mb-3">
-              <Form.Label>Slot Type</Form.Label>
-              <Form.Select value={newSlot.slotType} onChange={(e) => setNewSlot({...newSlot, slotType: e.target.value})}>
-                <option value="CAR">Car</option>
-                <option value="BIKE">Bike</option>
-                <option value="TRUCK">Truck</option>
-              </Form.Select>
-            </Form.Group>
-            <Form.Group className="mb-3">
-              <Form.Label>Floor</Form.Label>
-              <Form.Control type="text" value={newSlot.floor} onChange={(e) => setNewSlot({...newSlot, floor: e.target.value})} />
-            </Form.Group>
-            <Form.Group className="mb-3">
               <Form.Label>Price Per Hour</Form.Label>
               <Form.Control type="number" value={newSlot.pricePerHour} onChange={(e) => setNewSlot({...newSlot, pricePerHour: e.target.value})} />
             </Form.Group>
@@ -155,7 +135,7 @@ const AdminDashboard = () => {
         </Modal.Body>
         <Modal.Footer>
           <Button variant="secondary" onClick={() => setShowModal(false)}>Close</Button>
-          <Button variant="primary" onClick={handleSaveSlot}>Save Changes</Button>
+          <Button variant="primary" onClick={handleSaveSlot}>Add</Button>
         </Modal.Footer>
       </Modal>
     </Container>

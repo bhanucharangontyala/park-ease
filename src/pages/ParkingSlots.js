@@ -36,8 +36,6 @@ const ParkingSlots = () => {
               <Card.Body>
                 <Card.Title>Slot: {slot.slotNumber}</Card.Title>
                 <Card.Text>
-                  <strong>Type:</strong> {slot.slotType}<br />
-                  <strong>Floor:</strong> {slot.floor}<br />
                   <strong>Price:</strong> ₹{slot.pricePerHour}/hr
                 </Card.Text>
                 <Badge bg={slot.available ? "success" : "danger"}>

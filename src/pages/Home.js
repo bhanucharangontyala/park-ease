@@ -1,21 +1,33 @@
 import React from 'react';
-import { Container, Button, Row, Col, Card } from 'react-bootstrap';
+import { Badge, Button, Container, Row, Col, Card } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 
 const Home = () => {
   return (
-    <div className="bg-light min-vh-100">
-      {/* Hero Section */}
-      <div className="bg-primary text-white text-center py-5 mb-5 shadow-sm">
-        <Container>
-          <h1 className="display-3 fw-bold">Welcome to ParkEase</h1>
-          <p className="lead mb-4">Hassle-free car parking solutions at your fingertips.</p>
-          <div className="d-grid gap-2 d-sm-flex justify-content-sm-center">
-            <Button as={Link} to="/booking" variant="light" size="lg" className="px-4 gap-3 fw-bold text-primary">Book a Slot Now</Button>
-            <Button as={Link} to="/slots" variant="outline-light" size="lg" className="px-4">View Available Slots</Button>
-          </div>
+    <div className="home-page min-vh-100">
+      <section className="hero-section py-5 mb-5">
+        <Container className="text-center text-lg-start">
+          <Row className="align-items-center g-5">
+            <Col lg={7}>
+              <Badge bg="light" text="dark" className="hero-badge px-3 py-2 mb-3">
+                Smart Parking Platform
+              </Badge>
+              <h1 className="display-3 fw-bold">Welcome to ParkEase</h1>
+              <p className="lead mb-4 text-white-50">
+                Public visitors only see Home, Register, and Login. After login, each role is sent to the correct workspace.
+              </p>
+              <div className="d-grid gap-2 d-sm-flex justify-content-sm-center justify-content-lg-start">
+                <Button as={Link} to="/register" variant="light" size="lg" className="px-4 gap-3 fw-bold text-primary">
+                  Create Account
+                </Button>
+                <Button as={Link} to="/login" variant="outline-light" size="lg" className="px-4">
+                  Login
+                </Button>
+              </div>
+            </Col>
+          </Row>
         </Container>
-      </div>
+      </section>
 
       {/* Features Section */}
       <Container className="py-5">

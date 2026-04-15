@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Form, Button, Container, Card, Alert, Row, Col, Spinner } from 'react-bootstrap';
+import { Link } from 'react-router-dom';
 import { createBooking, verifyPayment, getAvailableSlots } from '../services/api';
 import { loadScript } from '../services/scriptLoader';
 
@@ -138,7 +139,7 @@ const Booking = () => {
             {success && <Alert variant="success">{success}</Alert>}
             
             {!localStorage.getItem('user') && (
-              <Alert variant="warning">Please <a href="/login">login</a> first to book a slot.</Alert>
+              <Alert variant="warning">Please <Link to="/login">login</Link> first to book a slot.</Alert>
             )}
 
             <Form onSubmit={handleBooking}>
